@@ -23,6 +23,7 @@ public class UserService
 	
 	public List<User> findAll(){
 		return userRepository.findAll();
+		
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -30,8 +31,8 @@ public class UserService
 		return userRepository.findById(id);
 	}
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void delete(User user) {
-		userRepository.delete(user);
+	public void delete(Long id) {
+		userRepository.deleteById(id);
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)

@@ -92,22 +92,17 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-webmvc-core</artifactId>
-			<version>1.4.8</version>
+			<version>${springDocVersion}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-webflux-ui</artifactId>
-			<version>1.4.8</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-hateoas</artifactId>
-			<version>1.4.8</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springdoc</groupId> -->
+<!-- 			<artifactId>springdoc-openapi-webflux-ui</artifactId> -->
+<!-- 			<version>${springDocVersion}</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-hateoas</artifactId>
-			<version>1.4.8</version>
+			<version>${springDocVersion}</version>
 		</dependency>
 
 		<dependency>
