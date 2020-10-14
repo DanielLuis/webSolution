@@ -28,7 +28,6 @@ public class UserService
 		return repository.findAll().stream()
 				.map(assembler::toModel)
 				.collect(Collectors.toList());
-		
 	}
 
 	public EntityModel<User> findById(Long id) {
@@ -48,6 +47,12 @@ public class UserService
 	@Transactional(propagation=Propagation.REQUIRED)
 	public EntityModel<User> update(User user) {
 		return assembler.toModel(repository.save(user));
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void inativate(Long id) {
+		User user = repository.findById(id).orElse(new User());
+		repository.deleteById(id);
 	}
 
 }

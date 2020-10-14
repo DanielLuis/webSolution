@@ -8,11 +8,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -45,17 +48,21 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EntityModel<User>> create(@RequestBody User user) {
+	public ResponseEntity<EntityModel<User>> create(@RequestBody @Valid User user) {
 		EntityModel<User> userModel = service.save(user);
 
 		return ResponseEntity //
-				.created(linkTo(methodOn(UserController.class).findById(user.getId())).toUri()) //
+				.created(userModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
 				.body(userModel);
 	}
 
 	@PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<EntityModel<User>> update(@RequestBody User user) {
-		return service.update(user);
+	public ResponseEntity<EntityModel<User>> update(@RequestBody @Valid User user) {
+		EntityModel<User> userModel = service.update(user);
+		
+		return ResponseEntity //
+	      .created(userModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+	      .body(userModel);
 	}
 
 	@DeleteMapping(value = "/inativate/{id}")

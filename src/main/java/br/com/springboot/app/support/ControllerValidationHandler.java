@@ -1,6 +1,5 @@
 package br.com.springboot.app.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -12,9 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import lombok.AllArgsConstructor;
+
 @ControllerAdvice
+@AllArgsConstructor
 public class ControllerValidationHandler {
-  @Autowired
+
   private MessageSource messageSource;
 
   @ExceptionHandler(MethodArgumentNotValidException.class)

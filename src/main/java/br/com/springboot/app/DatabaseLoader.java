@@ -15,9 +15,9 @@ public class DatabaseLoader {
   @Bean
   CommandLineRunner initUser(UserService userService) { // (1)
     return args -> { 
-    	Stream.of(new User(1L,"Daniel","teste@teste.com"),
-				new User(2L,"Mafalda","teste2@teste2.com"),
-				new User(3L,"Michel","teste3@teste3.com")).forEach(user -> { userService.save(user); }
+    	Stream.of(User.builder().id(1L).name("Daniel").email("teste@teste.com").status("A").build(),
+				User.builder().id(2L).name("Mafalda").email("teste2@teste.com").status("A").build(),
+				User.builder().id(3L).name("Michel").email("teste3@teste.com").status("A").build()).forEach(user -> { userService.save(user); }
         );
     	
 		userService.findAll().forEach(System.out::println);
