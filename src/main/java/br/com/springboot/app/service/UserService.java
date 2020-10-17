@@ -34,7 +34,6 @@ public class UserService
 
 	@Transactional(propagation=Propagation.REQUIRED)
 	public User save(User user) {
-		user.setStatus(UserStatus.ACTIVE.getCodigo());
 		return repository.save(user);
 	}
 

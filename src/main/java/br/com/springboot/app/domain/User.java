@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,12 +33,13 @@ public class User {
 	@Column(name = "name")
     private String name;
 	
-	@Email
+	@Email(message = "{error.user.email.valid}")
 	@NotEmpty(message = "{error.user.email.required}")
 	@Column(name = "email")
     private String email;
 	
-	@NotEmpty(message = "{error.user.status.required")
+	@Length(max = 1, message = "{error.user.status.information}")
+	@NotEmpty(message = "{error.user.status.required}")
 	@Column(name = "status")
 	private String status;
     

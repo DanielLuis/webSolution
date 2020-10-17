@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-public class MessageDTO implements Serializable{
+public class MessageError implements Serializable{
 	private static final long serialVersionUID = 7587947750567867752L;
 
     private LocalDate timestamp;
