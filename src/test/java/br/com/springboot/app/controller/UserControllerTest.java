@@ -11,10 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -49,22 +49,8 @@ class UserControllerTest {
 
 	private static String URL_USERS = "/users";
 
+	private static final String URL_USERS_FIND_BY_ID = URL_USERS+"/findById/{id}";
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeEach
-	void setUp() throws Exception {
-		List<User> users = Stream.of(User.builder().id(1L).name("Daniel").email("teste@teste.com").status(UserStatus.ACTIVE.getCodigo()).build(),
-				User.builder().id(2L).name("Mafalda").email("teste2@teste.com").status(UserStatus.ACTIVE.getCodigo()).build(),
-				User.builder().id(3L).name("Michel").email("teste3@teste.com").status(UserStatus.ACTIVE.getCodigo()).build())
-				.collect(Collectors.toList());
-
-
-		users.stream().forEach(u -> when(service.findById(u.getId())).thenReturn(u));
-
-		when(service.findAll()).thenReturn(users);
-	}
 
 	public String  obterJson(User user) {
 		String json = null;
@@ -85,15 +71,22 @@ class UserControllerTest {
 	 */
 	@Test
 	void testFindById() throws Exception {
+		User user = User.builder().id(1L).name("Daniel").email("teste@teste.com").status(UserStatus.ACTIVE.getCodigo()).build();
+		when(service.findById(user.getId())).thenReturn(user);
+
 		this.mockMvc
-		.perform(get(URL_USERS+"/findById/{id}",1L).contentType(MediaType.APPLICATION_JSON))
+		.perform(get(URL_USERS_FIND_BY_ID,user.getId()).contentType(MediaType.APPLICATION_JSON))
 		.andDo(print())
 		.andExpect(status().isOk());
 	}
 	@Test
 	void testNotFindById() throws Exception {
+		Long userId = 6L;
+		
+		when(service.findById(userId)).thenThrow(new UserNotFoundException(userId));
+
 		this.mockMvc
-		.perform(get(URL_USERS+"/findById/{id}",6L).contentType(MediaType.APPLICATION_JSON))
+		.perform(get(URL_USERS_FIND_BY_ID,userId).contentType(MediaType.APPLICATION_JSON))
 		.andDo(print())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException));
 	}
@@ -104,6 +97,13 @@ class UserControllerTest {
 	 */
 	@Test
 	void testGetUsers() throws Exception {
+		List<User> users = Stream.of(User.builder().id(1L).name("Daniel").email("teste@teste.com").status(UserStatus.ACTIVE.getCodigo()).build(),
+				User.builder().id(2L).name("Mafalda").email("teste2@teste.com").status(UserStatus.ACTIVE.getCodigo()).build(),
+				User.builder().id(3L).name("Michel").email("teste3@teste.com").status(UserStatus.ACTIVE.getCodigo()).build())
+				.collect(Collectors.toList());
+
+		when(service.findAll()).thenReturn(users);
+
 		this.mockMvc.perform(get(URL_USERS).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
