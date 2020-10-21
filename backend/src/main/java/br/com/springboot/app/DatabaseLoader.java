@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.com.springboot.app.domain.User;
@@ -12,6 +13,7 @@ import br.com.springboot.app.support.UserStatus;
 
 
 @Component
+@Profile("!test")
 public class DatabaseLoader {
   @Bean
   CommandLineRunner initUser(UserService userService) { // (1)
