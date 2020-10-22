@@ -1,4 +1,4 @@
-# Gateway SMS
+# Web Solution
 ==============
 
 
@@ -7,7 +7,7 @@ Requisitos de software
 
  - Java JDK 1.8+
  - Maven 3+
- - Eclipse
+ - Eclipse/Intellij
  
 
 Comando do maven para build do projeto
@@ -25,24 +25,21 @@ Comando para iniciar o projeto
 Requisição listagem de serviços disponíveis:
 
 ```javascript
-   curl localhost:8080/
+   http://localhost:8080/WebSolution/swagger-ui/index.html
 ```
 
-Console H2
+Exemplo para listar os usuários
 
 ```javascript
-   curl localhost:8080/console
+curl -X GET "http://localhost:8080/WebSolution/api/users/" -H  "accept: application/json"
 ```
-
-Exemplo para enviar um SMS 
-
-```javascript
-   curl -i -X POST -H "Content-Type:application/json" -d '{"from":"999999999","to":"888888888","body":"teste"}' http://localhost:8080/sms/send
-```
-Exemplo para enviar um SMS 
+Exemplo para criar um user 
 
 ```javascript
-   curl -i -X POST -H "Content-Type:application/json" -d '{"from":"999999999","to":"888888888","body":"teste","validade":"02/12/2017"}' http://localhost:8080/sms/send
+   curl -X POST "http://localhost:8080/WebSolution/api/users/create" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"id\":0,\"name\":\"Daniel\",\"email\":\"teste@teste.com\",\"status\":\"A\"}"
 ```
+
+
+
 
 
